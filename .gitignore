@@ -1,0 +1,19 @@
+# macOS & editor files
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# OS/thumbnail caches
+._*
+Thumbs.db
+
+# Build/artifacts
+build/
+dist/
+out/
+
+# Temporary
+*.tmp
+*.log
