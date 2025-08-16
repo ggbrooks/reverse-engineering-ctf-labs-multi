@@ -1,21 +1,43 @@
-# Lab 2 – Level 2
+# Lab 2 – Reverse Engineering Challenge
 
 ## Goal
-(What was the objective of this lab?)
+Analyze a Linux ELF 64-bit binary (`level4`) and recover the hidden flag
+
+---
 
 ## Tools Used
-- Ghidra
-- Cutter
-- EDB
-- (Add others if used)
+- **Ghidra** – static analysis and function labeling of the binary  
+- **GDB** – dynamic analysis and debugging (breakpoints, disassembly, memory inspection)  
+
+---
 
 ## Process (Summary)
-1. Briefly describe how you approached analysis (static/dynamic).
-2. Note any patching/modifications you made.
-3. Mention debugging/breakpoints/memory inspection.
-4. Highlight how you confirmed the result.
+1. **Static Analysis with Ghidra**  
+   - Examined the binary in Ghidra and commented functions, focusing on `check_password`.  
+   - Identified storage of the flag string and relevant memory copy/compare operations.  
+
+2. **Dynamic Analysis with GDB**  
+   - Ran the binary with fake input (`gdb --args ./level4 gianna_fake_flag`).  
+   - Set a breakpoint at `main` to track execution and account for runtime address changes.  
+   - Disassembled the `check_password` function to locate the memory comparison.  
+   - Added a breakpoint at the memory copy instruction and resumed execution.  
+
+3. **Flag Extraction**  
+   - Inspected memory at the breakpoint, where the real flag was being compared.  
+   - Extracted the flag from memory successfully.  
+
+---
 
 ## Result
-- Successfully extracted flag / bypassed check / etc.
-- (Optional: include screenshot in `screenshots/` folder)
-- Full details in the original report: `Lab2_report.docx`
+- Flag successfully recovered
+- Program confirmed success with the congratulatory message.  
+
+---
+
+## Key Takeaways
+- Analyzed an **ELF 64-bit binary** using both static and dynamic techniques.  
+- Learned to account for runtime address shifts by setting breakpoints dynamically.  
+- Demonstrated flag extraction through memory inspection and validation.  
+
+> Full write-up with screenshots and notes: `lab2_reverse_engin.docx`
+ 
