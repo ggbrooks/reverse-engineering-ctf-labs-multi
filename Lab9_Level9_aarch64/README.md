@@ -1,21 +1,40 @@
-# Lab 9 – Level 9
+# Lab 9 – l9_aarch64 (AArch64)
 
 ## Goal
-(What was the objective of this lab?)
+Bypass the OTP (One-Time Password) check in the `l9_aarch64` binary so the program reveals the flag regardless of the input.
+
+---
 
 ## Tools Used
-- Ghidra
-- Cutter
-- EDB
-- (Add others if used)
+- **Ghidra** — string search to locate the congratulatory message and label key variables (`OTP`, `user_input`, `decoy`) 
+- **Cutter** — to inspect the OTP comparison and patch the binary
 
-## Process (Summary)
-1. Briefly describe how you approached analysis (static/dynamic).
-2. Note any patching/modifications you made.
-3. Mention debugging/breakpoints/memory inspection.
-4. Highlight how you confirmed the result.
+---
+
+## Process
+1. **Locate main and validation path**  
+   - Loaded the binary in Ghidra and searched for the success message  
+   - From there, identified the OTP, `user_input`, and a decoy variable
+
+2. **Patch the comparison**  
+   - Opened the binary in Cutter and navigated to the `if` statement where the OTP is compared to the user input  
+   - At instruction `0x00400900`, changed the byte from `0x48` to `0x44`, forcing the check to always succeed
+
+3. **Run test**  
+   - Executed the patched binary. Entered `"password"` (though any input works).  
+   - The program printed the flag successfully
+
+---
 
 ## Result
-- Successfully extracted flag / bypassed check / etc.
-- (Optional: include screenshot in `screenshots/` folder)
-- Full details in the original report: `Lab9_report.docx`
+- Patched the OTP check so that any input bypasses validation.  
+- Running the binary with any string results in the flag being revealed
+
+---
+
+## Takeaways
+- String searching for success messages is a reliable way to locate main validation logic in stripped binaries.  
+- A single-byte patch at the right conditional check (`0x00400900`) can completely bypass input validation.  
+- Cutter is especially useful for identifying and modifying conditional jumps directly at the assembly level.  
+
+> Full write-up: `Lab9_aarch64.docx`
